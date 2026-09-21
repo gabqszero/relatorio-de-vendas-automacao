@@ -11,7 +11,7 @@ import re
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
 
-# 🛠️ FUNÇÃO INTELIGENTE NO ESCOPO GLOBAL (Definida uma única vez)
+#  FUNÇÃO NO ESCOPO GLOBAL 
 def extrair_ultimo_ano(valor):
     if pd.isna(valor) or str(valor).strip().lower() == 'nan':
         return None
@@ -112,7 +112,7 @@ class RunWorkElite(ctk.CTk):
             self.log(f"Total de {total_linhas} linhas carregadas.")
 
             self.log("Saneando triagem e convertendo colunas numéricas exigidas...")
-            # 🚨 CORREÇÃO: Removido o índice 30 desta lista para não destruir as strings de data transformando-as em NaN
+            #Removido o índice 30 desta lista para não destruir as strings de data transformando-as em NaN
             indices_para_converter = [0, 8, 14, 17, 28, 29, 33, 34, 35, 37]
 
             for idx in indices_para_converter:
@@ -124,7 +124,7 @@ class RunWorkElite(ctk.CTk):
         
             self.log("Banco de custos indexado dinamicamente em memória.")
             
-            # --- Correção e Tratamento de Nulos na Coluna AI executado no DataFrame ---
+            #Tratamento de Nulos na Coluna AI executado no DataFrame ---
             if df_vendas.shape[1] < 35:
                 raise ValueError(f"A planilha selecionada possui apenas {df_vendas.shape[1]} colunas. Uma coluna na posição 'AI' não pôde ser alcançada.")
 
@@ -210,7 +210,7 @@ class RunWorkElite(ctk.CTk):
 
             # Mapeamento de posição
             colunas_numericas = [22, 23, 24, 25, 26, 27, 28] 
-            # 🚨 CORREÇÃO: Mudado de 30 para 31 devido ao enumerate(start=1) mapear o índice 30 do DataFrame no c_idx 31
+            #mapear o índice 30 do DataFrame no c_idx 31
             colunas_data = [2, 6, 31] 
 
             self.log("Injetando dados e corrigindo formatos...")
@@ -218,7 +218,7 @@ class RunWorkElite(ctk.CTk):
             for r_idx, row in enumerate(dados_lista):
                 linha_atual = start_row + r_idx
                 
-                # 🔍 Descobre a posição exata da coluna DATA_ENTRADA na memória pelo nome (evita erros se colunas mudarem de lugar)
+                # descobre a posição exata da coluna DATA_ENTRADA na memória pelo nome (evita erros se colunas mudarem de lugar)
             try:
                 idx_data_entrada = df_vendas.columns.get_loc("DATA_ENTRADA")
             except:
@@ -237,7 +237,7 @@ class RunWorkElite(ctk.CTk):
                 custo_unitario_final = 0.0 
                 ano_extraido_linha = None  
 
-                # ⚡ EXTRAÇÃO PERFEITA: Pega o ano direto da célula de origem antes de misturar com outras colunas
+                # EXTRAÇÃO: Pega o ano direto da célula de origem antes de misturar com outras colunas
                 valor_data_origem = row[idx_data_entrada]
                 if pd.notna(valor_data_origem) and str(valor_data_origem).strip().lower() != 'nan':
                     anos_encontrados = re.findall(r'(202[0-6])', str(valor_data_origem))
@@ -303,7 +303,7 @@ class RunWorkElite(ctk.CTk):
                         else:
                             cell.value = valor
 
-                # 🚨 GRAVAÇÃO DO ANO NA COLUNA VERMELHA (AG - ENTRA)
+                # GRAVAÇÃO DO ANO NA COLUNA VERMELHA (AG - ENTRA)
                 if ano_extraido_linha:
                     cell_entra = ws.cell(row=linha_atual, column=33) # Coluna 33 = AG
                     cell_entra.value = ano_extraido_linha
@@ -324,4 +324,4 @@ class RunWorkElite(ctk.CTk):
 
 if __name__ == "__main__":
     app = RunWorkElite()
-    app.mainloop() # 🚨 CORREÇÃO: Sintaxe corrigida aqui de volta para uma linha só
+    app.mainloop()
